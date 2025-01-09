@@ -1,41 +1,63 @@
-document.getElementById('swapButton').addEventListener('click', function () {
-    const fromCurrency = document.getElementById('fromCurrency').value;
-    const toCurrency = document.getElementById('toCurrency').value;
-    const fromAmount = parseFloat(document.getElementById('fromAmount').value);
+const backendUrl = "https://your-backend-url/api"; // Cambia esto por tu backend
 
-    if (!fromAmount || fromAmount <= 0) {
-        displayMessage("Please enter a valid amount.", "red");
+// Actualizar el balance
+function updateBalance(balance) {
+    document.getElementById('balance').textContent = `${balance} BTC`;
+}
+
+// Generar una factura Lightning
+document.getElementById('generateInvoice').addEventListener('click', async () => {
+    const amount = parseFloat(document.getElementById('buyAmount').value);
+    if (!amount || amount <= 0) {
+        displayMessage("Enter a valid amount.", "red");
         return;
     }
 
-    if (fromCurrency === toCurrency) {
-        displayMessage("Choose different currencies to swap.", "red");
-        return;
+    try {
+        const response = await fetch(`${backendUrl}/create-invoice`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount })
+        });
+        const data = await response.json();
+        if (data.invoice) {
+            document.getElementById('invoiceMessage').textContent = `Invoice created: ${data.invoice}`;
+        } else {
+            throw new Error("Failed to create invoice");
+        }
+    } catch (error) {
+        displayMessage(error.message, "red");
     }
-
-    // Mock conversion rate (this could be fetched from an API in real implementation)
-    const conversionRates = {
-        "USDT-USDC": 1,
-        "USDT-MATIC": 0.75,
-        "USDC-MATIC": 0.8,
-        "USDC-USDT": 1,
-        "MATIC-USDT": 1.25,
-        "MATIC-USDC": 1.2
-    };
-
-    const conversionKey = `${fromCurrency}-${toCurrency}`;
-    const rate = conversionRates[conversionKey] || 1; // Default to 1:1 if rate not found
-    const toAmount = (fromAmount * rate).toFixed(2);
-
-    // Display the converted amount
-    document.getElementById('toAmount').value = toAmount;
-
-    // Display a success message
-    displayMessage(`Successfully swapped ${fromAmount} ${fromCurrency} to ${toAmount} ${toCurrency}`, "green");
 });
 
-function displayMessage(msg, color) {
+// Vender Bitcoin
+document.getElementById('sellBitcoin').addEventListener('click', async () => {
+    const amount = parseFloat(document.getElementById('sellAmount').value);
+    if (!amount || amount <= 0) {
+        displayMessage("Enter a valid amount.", "red");
+        return;
+    }
+
+    try {
+        const response = await fetch(`${backendUrl}/sell-bitcoin`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ amount })
+        });
+        const data = await response.json();
+        if (data.success) {
+            updateBalance(data.newBalance);
+            document.getElementById('sellMessage').textContent = "Bitcoin sold successfully!";
+        } else {
+            throw new Error("Failed to sell Bitcoin");
+        }
+    } catch (error) {
+        displayMessage(error.message, "red");
+    }
+});
+
+function displayMessage(message, color) {
     const messageDiv = document.getElementById('message');
     messageDiv.style.color = color;
-    messageDiv.textContent = msg;
+    messageDiv.textContent = message;
 }
