@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Swap</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Crypto Swap</h1>
+        <div class="swap-container">
+            <div class="swap-box">
+                <label for="fromCurrency">From:</label>
+                <select id="fromCurrency">
+                    <option value="USDT">USDT</option>
+                    <option value="USDC">USDC</option>
+                    <option value="MATIC">MATIC</option>
+                </select>
+                <input type="number" id="fromAmount" placeholder="Amount">
+            </div>
+            <div class="swap-box">
+                <label for="toCurrency">To:</label>
+                <select id="toCurrency">
+                    <option value="USDT">USDT</option>
+                    <option value="USDC">USDC</option>
+                    <option value="MATIC">MATIC</option>
+                </select>
+                <input type="number" id="toAmount" placeholder="Amount" disabled>
+            </div>
+            <button id="swapButton">Swap</button>
+        </div>
+        <div id="message"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
