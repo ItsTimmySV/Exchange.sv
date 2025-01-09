@@ -3,32 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crypto Swap</title>
+    <title>Bitcoin Lightning Wallet</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Crypto Swap</h1>
-        <div class="swap-container">
-            <div class="swap-box">
-                <label for="fromCurrency">From:</label>
-                <select id="fromCurrency">
-                    <option value="USDT">USDT</option>
-                    <option value="USDC">USDC</option>
-                    <option value="MATIC">MATIC</option>
-                </select>
-                <input type="number" id="fromAmount" placeholder="Amount">
-            </div>
-            <div class="swap-box">
-                <label for="toCurrency">To:</label>
-                <select id="toCurrency">
-                    <option value="USDT">USDT</option>
-                    <option value="USDC">USDC</option>
-                    <option value="MATIC">MATIC</option>
-                </select>
-                <input type="number" id="toAmount" placeholder="Amount" disabled>
-            </div>
-            <button id="swapButton">Swap</button>
+        <h1>Bitcoin Lightning Wallet</h1>
+        <div class="wallet-info">
+            <p>Wallet Balance: <span id="balance">0 BTC</span></p>
+        </div>
+        <div class="buy-section">
+            <h2>Buy Bitcoin</h2>
+            <input type="number" id="buyAmount" placeholder="Amount in BTC">
+            <button id="generateInvoice">Generate Invoice</button>
+            <p id="invoiceMessage"></p>
+        </div>
+        <div class="sell-section">
+            <h2>Sell Bitcoin</h2>
+            <input type="number" id="sellAmount" placeholder="Amount in BTC">
+            <button id="sellBitcoin">Sell Bitcoin</button>
+            <p id="sellMessage"></p>
         </div>
         <div id="message"></div>
     </div>
